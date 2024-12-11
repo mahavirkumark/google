@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+</head>
+<body>
+  <h1>Welcome to Your Dashboard</h1>
+  <div id="user-info"></div>
+  <button onclick="logout()">Logout</button>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB78RTVCg0cmSPp7A1RJyyAgBuCeolO0cc",
+      authDomain: "sk12-58e9e.firebaseapp.com",
+      projectId: "sk12-58e9e",
+      storageBucket: "sk12-58e9e.firebasestorage.app",
+      messagingSenderId: "470207874652",
+      appId: "1:470207874652:web:67ba1cf3629b7e5b144899"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    // Retrieve user data from Firebase Authentication
+    const user = auth.currentUser;
+    if (user) {
+      document.getElementById("user-info").innerHTML = `
+        <h3>Welcome, ${user.displayName}</h3>
+        <p>Email: ${user.email}</p>
+        <img src="${user.photoURL}" alt="Profile Picture" width="100">
+      `;
+    }
+    // Logout Function
+    function logout() {
+      signOut(auth)
+        .then(() => {
+          // Redirect to login page after logout
+          window.location.href = "practice.html";
+        })
+        .catch((error) => {
+          console.error("Logout Failed:", error);
+        });
+    }
+  </script>
+</body>
+</html>
